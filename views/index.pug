@@ -1,0 +1,37 @@
+extends layout
+
+block content
+    .row
+        .col-lg-12
+        h1.page-header Data Sapi
+    .row
+        .col-lg-12
+            .panel.panel-default
+                .panel-heading
+                    | Sapi
+                .panel-body
+                    table#dataTables-example.table.table-striped.table-bordered.table-hover(width='100%')
+                        thead
+                            th ID Sapi
+                            th No KTP
+                            th Jenis Sapi
+                            th Daerah
+                            th Umur Sapi(Bln)
+                            th Tgl Awal
+                            th Berat Awal(Kg)
+                            th Berat Sekarang(Kg)
+                            th Berat Satu Bulan(Kg)
+                            th Berat Tiga Bulan(Kg)
+                        tbody
+                            each sapi, i in dataSapi
+                                tr
+                                    td= sapi.idSapi
+                                    td= sapi.noKTP
+                                    td= sapi.jenis
+                                    td= sapi.daerah
+                                    td= sapi.umur
+                                    td= moment(sapi.tgl_awal).format('DD/MM/YYYY')
+                                    td= sapi.berat_awal
+                                    td= sapi.berat_sekarang
+                                    td= sapi.berat_satu_bulan
+                                    td= sapi.berat_tiga_bulan
