@@ -37,14 +37,46 @@ app.listen(3000,()=>console.log('Express server is running in port 3000...'));
 
 //Get all sapi JOIN petani
 app.get('/sapi', (req,res)=>{
-    mysqlConnection.query('SELECT * FROM '+ 
-                            'tblsapi s JOIN tblpetani p ON s.noKTP = p.noKTP ',(err, dataSapi, fields)=>{
+    mysqlConnection.query('SELECT '+
+                                'idSapi, '+
+                                'spi.noKTP, '+
+                                'jenis, '+
+                                'daerah, '+
+                                'umur, '+
+                                'tgl_awal, '+
+                                'berat_awal, '+
+                                '( DATEDIFF( NOW( ), tgl_awal ) * 0.8 ) + berat_awal AS berat_saat_ini, '+
+                                '( DATEDIFF( DATE_ADD( tgl_awal, INTERVAL + 1 MONTH ), tgl_awal ) * 0.8 ) + berat_awal AS berat_satu_bulan, '+
+                                '( DATEDIFF( DATE_ADD( tgl_awal, INTERVAL + 3 MONTH ), tgl_awal ) * 0.8 ) + berat_awal AS berat_tiga_bulan  '+
+                            'FROM '+
+                                'tblsapi spi '+
+                                'JOIN tblpetani ptn ON spi.noKTP = ptn.noKTP',(err, rows, fields)=>{
         if(!err){
             res.render('index',{
-                dataSapi: dataSapi
+                dataSapi: rows
             });
         }else{
             console.log(err);
         }
     });
 });
+
+//Get data berat sapi
+app.get('/sapi/beratSatu', (req,res)=>{
+    mysqlConnection.query('SELECT '+
+	                            '(DATEDIFF( NOW( ), tgl_awal ) * 0.8) + berat_awal AS BeratTotal '+ 
+                            'FROM '+
+                                'tblsapi',(err, rows, fields)=>{
+        if(!err){
+            res.render(newFunction(),{
+                beratSapi: rows
+            });
+        }else{
+            console.log(err);
+        }
+    });
+});
+
+function newFunction() {
+    return 'index';
+}
