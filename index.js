@@ -36,7 +36,7 @@ mysqlConnection.connect((err)=>{
 app.listen(3000,()=>console.log('Express server is running in port 3000...'));
 
 //Get all sapi JOIN petani
-app.get('/sapi', (req,res)=>{
+app.get('/sapi/:berat', (req,res)=>{
     mysqlConnection.query('SELECT '+
                                 'idSapi, '+
                                 'spi.noKTP, '+
@@ -60,23 +60,3 @@ app.get('/sapi', (req,res)=>{
         }
     });
 });
-
-//Get data berat sapi
-app.get('/sapi/beratSatu', (req,res)=>{
-    mysqlConnection.query('SELECT '+
-	                            '(DATEDIFF( NOW( ), tgl_awal ) * 0.8) + berat_awal AS BeratTotal '+ 
-                            'FROM '+
-                                'tblsapi',(err, rows, fields)=>{
-        if(!err){
-            res.render(newFunction(),{
-                beratSapi: rows
-            });
-        }else{
-            console.log(err);
-        }
-    });
-});
-
-function newFunction() {
-    return 'index';
-}
