@@ -10,13 +10,13 @@ block content
                     .panel-heading
                         | Asumsi Berat Sapi
                     .panel-body
-                        form(role='form' method='POST' action='#')
-                        .form-group
-                            label Pilih Asumsi Penambahan Berat Sapi /Hari (Kg) :
-                            select#selBerat.form-control(style='width:80px;', name='selBerat')
-                                option(value='0.8') 0.8
-                                option(value='0.9') 0.9
-                                option(value='1.0') 1.0 
+                        form(role='form' method='POST' action='/sapi/1.0')
+                            .form-group
+                                label Pilih Asumsi Penambahan Berat Sapi /Hari (Kg) :
+                                select#selBerat.form-control(style='width:80px;', name='selBerat')
+                                    option(value='0.8') 0.8
+                                    option(value='0.9') 0.9
+                                    option(value='1.0') 1.0
         .row
             .col-lg-12
                 .panel.panel-default
@@ -35,7 +35,7 @@ block content
                                 th(style="width:10%") Berat Saat Ini (Kg)
                                 th(style="width:10%") Berat 1 Bulan (Kg)
                                 th(style="width:10%") Berat 3 Bulan (Kg)
-                            tbody
+                            tbody#dataSapi
                                 each sapi, i in dataSapi
                                     tr
                                         td= sapi.idSapi
@@ -44,7 +44,7 @@ block content
                                         td= sapi.daerah
                                         td= sapi.umur
                                         td= moment(sapi.tgl_awal).format('DD/MM/YYYY')
-                                        td= sapi.idSapi
+                                        td= sapi.berat_awal
                                         td= sapi.berat_saat_ini
                                         td= sapi.berat_satu_bulan
                                         td= sapi.berat_tiga_bulan
