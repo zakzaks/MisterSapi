@@ -1,0 +1,51 @@
+extends layout
+
+block content
+    .row
+        .col-lg-12
+            h1.page-header Sapi
+        .row
+            .col-lg-12
+                .panel.panel-default
+                    .panel-heading
+                        | Asumsi Berat Sapi
+                    .panel-body
+                        form(role='form' method='POST' action='/sapi/1.0')
+                            .form-group
+                                label Pilih Asumsi Penambahan Berat Sapi /Hari (Kg) :
+                                select#selBerat.form-control(style='width:80px;', name='selBerat')
+                                    option(value='0.8') 0.8
+                                    option(value='0.9') 0.9
+                                    option(value='1.0') 1.0
+        .row
+            .col-lg-12
+                .panel.panel-default
+                    .panel-heading
+                        | Data Sapi
+                    .panel-body
+                        table#dataTables-sapi.table.table-striped.table-bordered.table-hover(width='100%')
+                            thead
+                                th(style="width:8%") ID
+                                th(style="width:10%") No KTP
+                                th(style="width:10%") Jenis 
+                                th(style="width:10%") Daerah
+                                th(style="width:10%") Umur (Bln)
+                                th(style="width:12%") Tgl Awal
+                                th(style="width:10%") Berat Awal (Kg)
+                                th(style="width:10%") Berat Saat Ini (Kg)
+                                th(style="width:10%") Berat 1 Bulan (Kg)
+                                th(style="width:10%") Berat 3 Bulan (Kg)
+                            tbody#tblSapi
+                                each sapi, i in dataSapi
+                                    tr
+                                        td= sapi.idSapi
+                                        td 
+                                            a.petani(href="javascript" data=sapi.noKTP)= sapi.noKTP
+                                        td= sapi.jenis
+                                        td= sapi.daerah
+                                        td= sapi.umur
+                                        td= moment(sapi.tgl_awal).format('DD/MM/YYYY')
+                                        td= sapi.berat_awal
+                                        td= sapi.berat_saat_ini
+                                        td= sapi.berat_satu_bulan
+                                        td= sapi.berat_tiga_bulan

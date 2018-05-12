@@ -21,5 +21,7 @@ app.use(express.static(__dirname + '/public/'));
 //Router files 
 let sapi = require('./routes/sapi');
 app.use('/sapi', sapi);
+let petani = require('./routes/petani');
+app.use('/petani', petani);
 
 app.listen(3000,()=>console.log('Express server is running in port 3000...'));

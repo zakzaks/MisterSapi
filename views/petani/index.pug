@@ -1,0 +1,27 @@
+extends layout
+
+block content
+    .row
+        .col-lg-12
+            h1.page-header Petani
+        .row
+            .col-lg-12
+                .panel.panel-default
+                    .panel-heading
+                        | Data Petani
+                    .panel-body
+                        table#dataTables-sapi.table.table-striped.table-bordered.table-hover(width='100%')
+                            thead
+                                th(style="width:20%") No KTP
+                                th(style="width:20%") Nama
+                                th(style="width:20%") Alamat 
+                                th(style="width:20%") Daerah
+                                th(style="width:20%") Kontak
+                            tbody#dataPetani
+                                each petani, i in dataPetani
+                                    tr
+                                        td= petani.noKTP
+                                        td= petani.nama
+                                        td= petani.alamat
+                                        td= petani.daerah
+                                        td= petani.kontak

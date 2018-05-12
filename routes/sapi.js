@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
 
-let mysqlConnection = require('../models/sapi');
+//Import modelsapi.
+let mysqlConnection = require('../models/connection');
 
 //Get all sapi JOIN petani
 router.get('/', (req,res)=>{
@@ -20,7 +21,7 @@ router.get('/', (req,res)=>{
                                 'tblsapi spi '+
                                 'JOIN tblpetani ptn ON spi.noKTP = ptn.noKTP',(err, rows, fields)=>{
     if(!err){
-        res.render('index',{
+        res.render('sapi/index',{
             dataSapi: rows
         });
     } else {
