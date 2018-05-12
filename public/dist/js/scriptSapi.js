@@ -9,7 +9,7 @@ $(document).ready(function() {
         $.ajax({
             type: 'ajax',
             method: 'POST',
-            url: '/sapi/'+berat,
+            url: '/sapi/berat/'+berat,
             async: false,
             dataType: 'json',
             success: function(data){
@@ -37,25 +37,26 @@ $(document).ready(function() {
         });
     });
 
-    $('#tblSapi').on('click', '.petani', function(){
+    $('#tblSapi').on('click', '.showPetani', function(){
         var noKTP = $(this).attr('data');
         $('#myModal').modal('show');
         $('#myModal').find('.modal-title').text('Detail Petani');
         $.ajax({
             type: 'ajax',
-            method: 'get',
-            url: '/EditMhs',
-            data: {nim: nim},
+            method: 'POST',
+            url: '/sapi/getPetani/'+noKTP,
             async: false,
             dataType: 'json',
             success: function(data){
-                $('input[name=txtNIM]').val(data.nim);
-                $('input[name=txtNama]').val(data.nama);
-                $('input[name=txtTglLahir]').val(data.tgl_lahir);
-                $('input[name=txtAlamat]').val(data.alamat);
+                console.log(data);
+                $('#noKTP').val(data.noKTP);
+                $('#nama').val(data.nama);
+                $('#alamat').val(data.alamat);
+                $('#daerah').val(data.daerah);
+                $('#kontak').val(data.kontak);
             },
             error: function(){
-                alert('Tidak dapate mengubah Data.');
+                console.log('Error Bro');
             }
         });
     });
