@@ -16,7 +16,9 @@ router.get('/', (req,res)=>{
                                 'berat_awal, '+
                                 '( DATEDIFF( NOW( ), tgl_awal ) * 0.8 ) + berat_awal AS berat_saat_ini, '+
                                 '( DATEDIFF( DATE_ADD( tgl_awal, INTERVAL + 1 MONTH ), tgl_awal ) * 0.8 ) + berat_awal AS berat_satu_bulan, '+
-                                '( DATEDIFF( DATE_ADD( tgl_awal, INTERVAL + 3 MONTH ), tgl_awal ) * 0.8 ) + berat_awal AS berat_tiga_bulan  '+
+                                '( DATEDIFF( DATE_ADD( tgl_awal, INTERVAL + 3 MONTH ), tgl_awal ) * 0.8 ) + berat_awal AS berat_tiga_bulan,  '+
+                                'status, '+
+                                'keterangan  '+
                             'FROM '+
                                 'tblsapi spi '+
                                 'JOIN tblpetani ptn ON spi.noKTP = ptn.noKTP',(err, rows, fields)=>{
@@ -42,10 +44,40 @@ router.post('/berat/:berat',(req,res)=>{
         'berat_awal, '+
         '( DATEDIFF( NOW( ), tgl_awal ) * ? ) + berat_awal AS berat_saat_ini, '+
         '( DATEDIFF( DATE_ADD( tgl_awal, INTERVAL + 1 MONTH ), tgl_awal ) * ? ) + berat_awal AS berat_satu_bulan, '+
-        '( DATEDIFF( DATE_ADD( tgl_awal, INTERVAL + 3 MONTH ), tgl_awal ) * ? ) + berat_awal AS berat_tiga_bulan  '+
+        '( DATEDIFF( DATE_ADD( tgl_awal, INTERVAL + 3 MONTH ), tgl_awal ) * ? ) + berat_awal AS berat_tiga_bulan,  '+
+        'status, '+
+        'keterangan  '+
     'FROM '+
         'tblsapi spi '+
         'JOIN tblpetani ptn ON spi.noKTP = ptn.noKTP',[req.params.berat,req.params.berat,req.params.berat],(err, rows, fields)=>{
+    if(!err){
+        res.send(rows);
+    } else {
+        console.log(err);
+    }
+    });
+});
+
+//Get sapi based on berat
+router.post('/beratSeratus/:berat',(req,res)=>{
+    mysqlConnection.query('SELECT '+
+        'idSapi, '+
+        'spi.noKTP, '+
+        'jenis, '+
+        'daerah, '+
+        'umur, '+
+        'tgl_awal, '+
+        'berat_awal, '+
+        '( DATEDIFF( NOW( ), tgl_awal ) * ? ) + berat_awal AS berat_saat_ini, '+
+        '( DATEDIFF( DATE_ADD( tgl_awal, INTERVAL + 1 MONTH ), tgl_awal ) * ? ) + berat_awal AS berat_satu_bulan, '+
+        '( DATEDIFF( DATE_ADD( tgl_awal, INTERVAL + 3 MONTH ), tgl_awal ) * ? ) + berat_awal AS berat_tiga_bulan,  '+
+        'status, '+
+        'keterangan '+
+    'FROM '+
+        'tblsapi spi '+
+        'JOIN tblpetani ptn ON spi.noKTP = ptn.noKTP '+ 
+    'WHERE '+ 
+        'berat_awal > 100 ',[req.params.berat,req.params.berat,req.params.berat],(err, rows, fields)=>{
     if(!err){
         res.send(rows);
     } else {
@@ -66,7 +98,7 @@ router.post('/getPetani/:noKTP',(req,res)=>{
                                 'tblpetani '+
                             'WHERE noKTP = ?',[req.params.noKTP],(err, rows, fields)=>{
     if(!err){
-        res.send(rows);
+        res.json(JSON.stringify(rows));
     } else {
         console.log(err);
     }

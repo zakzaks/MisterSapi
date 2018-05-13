@@ -17,6 +17,12 @@ block content
                                     option(value='0.8') 0.8
                                     option(value='0.9') 0.9
                                     option(value='1.0') 1.0
+                            .form-group
+                                input#checkBerat.form-check-input(type='checkbox')
+                                | &nbsp; Berat lebih dari 100kg
+
+
+
         .row
             .col-lg-12
                 .panel.panel-default
@@ -26,15 +32,17 @@ block content
                         table#dataTables-sapi.table.table-striped.table-bordered.table-hover(width='100%')
                             thead
                                 th(style="width:8%") ID
-                                th(style="width:10%") No KTP
-                                th(style="width:10%") Jenis 
-                                th(style="width:10%") Daerah
-                                th(style="width:10%") Umur (Bln)
-                                th(style="width:12%") Tgl Awal
+                                th(style="width:8%") No KTP
+                                th(style="width:8%") Jenis 
+                                th(style="width:8%") Daerah
+                                th(style="width:8%") Umur (Bln)
+                                th(style="width:10%") Tgl Awal
                                 th(style="width:10%") Berat Awal (Kg)
                                 th(style="width:10%") Berat Saat Ini (Kg)
                                 th(style="width:10%") Berat 1 Bulan (Kg)
                                 th(style="width:10%") Berat 3 Bulan (Kg)
+                                th(style="width:5%") Status
+                                th(style="width:5%") Keterangan
                             tbody#tblSapi
                                 each sapi, i in dataSapi
                                     tr
@@ -49,32 +57,36 @@ block content
                                         td= sapi.berat_saat_ini
                                         td= sapi.berat_satu_bulan
                                         td= sapi.berat_tiga_bulan
+                                        td= sapi.status
+                                        td= sapi.keterangan
+                                        
+                                        
             // The Modal
-            #myModal.modal
+            #myModal.modal.fade
                 .modal-dialog
                     .modal-content
                         // Modal Header
                         .modal-header
-                            h4.modal-title Modal Heading
                             button.close(type='button', data-dismiss='modal') ×
+                            h4.modal-title Modal Heading
                         // Modal body
                         .modal-body
                             form(action='#')
                                 .form-group
                                     label(for='No KTP') No KTP:
-                                    input.noKTP.form-control(type='text')
+                                    input.form-control(type='text', name="noKTP")
                                 .form-group
                                     label(for='Nama') Nama :
-                                    input#nama.form-control(type='text')
+                                    input.form-control(type='text', id="nama")
                                 .form-group
                                     label(for='Alamat') Alamat :
-                                    textarea#alamat.form-control
+                                    textarea.form-control(id="alamat")
                                 .form-group
                                     label(for='Daerah') Daerah :
-                                    input#daerah.form-control(type='text')
+                                    input.form-control(type='text', id="daerah")
                                 .form-group
                                     label(for='Kontak') Kontak :
-                                    input#kontak.form-control(type='text')
+                                    input.form-control(type='text', id="kontak")
                         // Modal footer
                         .modal-footer
                             button.btn.btn-danger(type='button', data-dismiss='modal') Close

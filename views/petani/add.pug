@@ -1,0 +1,32 @@
+extends layout
+
+block content
+    .row
+        .col-lg-12
+            h1.page-header Petani
+        .row
+            .col-lg-12
+                .panel.panel-default
+                    .panel-heading
+                        | Add Petani
+                    .panel-body
+                        .alert.alert-success(style='display:none')
+                        form(method="post", action='/petani/save')
+                            .form-group
+                                label(for='No KTP') No KTP:
+                                input.noKTP.form-control(type='text', name="noKTP")
+                            .form-group
+                                label(for='Nama') Nama :
+                                input#nama.form-control(type='text', name="nama")
+                            .form-group
+                                label(for='Alamat') Alamat :
+                                textarea#alamat.form-control(name="alamat")
+                            .form-group
+                                label(for='Daerah') Daerah :
+                                input#daerah.form-control(type='text', name="daerah")
+                            .form-group
+                                label(for='Kontak') Kontak :
+                                input#kontak.form-control(type='text', name="kontak")
+                            input.btn.btn-primary(type='submit', value="Save")
+
+

@@ -10,18 +10,50 @@ block content
                     .panel-heading
                         | Data Petani
                     .panel-body
-                        table#dataTables-sapi.table.table-striped.table-bordered.table-hover(width='100%')
-                            thead
-                                th(style="width:20%") No KTP
-                                th(style="width:20%") Nama
-                                th(style="width:20%") Alamat 
-                                th(style="width:20%") Daerah
-                                th(style="width:20%") Kontak
-                            tbody#dataPetani
-                                each petani, i in dataPetani
-                                    tr
-                                        td= petani.noKTP
-                                        td= petani.nama
-                                        td= petani.alamat
-                                        td= petani.daerah
-                                        td= petani.kontak
+                        form(action='/petani/add/', method='POST')
+                            .alert.alert-success(style='display:none')
+                            button#btnAdd.btn.btn-success(type='submit' style="margin-bottom:10px; width:150px") Add
+                            table#dataTables-petani.table.table-striped.table-bordered.table-hover(width='100%')
+                                thead
+                                    th(style="width:20%") No KTP
+                                    th(style="width:20%") Nama
+                                    th(style="width:20%") Alamat 
+                                    th(style="width:20%") Daerah
+                                    th(style="width:20%") Kontak
+                                tbody#tblPetani
+                                    each petani in dataPetani
+                                        tr
+                                            td= petani.noKTP
+                                            td= petani.nama
+                                            td= petani.alamat
+                                            td= petani.daerah
+                                            td= petani.kontak
+    #myModal.modal.fade
+        .modal-dialog
+            .modal-content
+                .modal-header
+                    button.close(type='button', data-dismiss='modal') ×
+                    h4.modal-title Modal Heading
+                .modal-body
+                    form#formPetani(action='/petani/add/', method='POST')
+                        .form-group
+                            label(for='No KTP') No KTP:
+                            input#noKTP.form-control(type='text')
+                        .form-group
+                            label(for='Nama') Nama :
+                            input#nama.form-control(type='text')
+                        .form-group
+                            label(for='Alamat') Alamat :
+                            textarea#alamat.form-control
+                        .form-group
+                            label(for='Daerah') Daerah :
+                            input#daerah.form-control(type='text')
+                        .form-group
+                            label(for='Kontak') Kontak :
+                            input#kontak.form-control(type='text')
+                        .form-group
+                            input.btn.btn-primary(type='submit', value="Save")
+                            button.btn.btn-danger(type='button', data-dismiss='modal') Close
+                .modal-footer
+
+

@@ -13,7 +13,7 @@ app.set('view engine','pug');
 //Parse application/json
 app.use(bodyParser.json());
 // create application/x-www-form-urlencoded parser
-var urlencodedParser = bodyParser.urlencoded({ extended: false })
+app.use(bodyParser.urlencoded({ extended: false }));
 
 //Set public folder
 app.use(express.static(__dirname + '/public/'));
