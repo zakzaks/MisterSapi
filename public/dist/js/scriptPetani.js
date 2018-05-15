@@ -1,6 +1,5 @@
 $(document).ready(function () {
     showPetani();
-    dataTables();
 
     function dataTables() {  
         $('#dataTables-petani').DataTable({
@@ -67,6 +66,7 @@ $(document).ready(function () {
                 '</tr>';
                 }
                 $('#tblPetani').html(html);
+                dataTables();
             },
             error: function(){
                 alert('Terjadi Kesalahan');

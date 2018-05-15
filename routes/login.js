@@ -19,13 +19,23 @@ router.post('/login', (req,res)=>{
                             'WHERE username = ? AND password = ?',
                             [String(req.body.username), String(req.body.password)],
                             (err, rows, fields)=>{
-                        if(!err){
+                        if(rows.length > 0){
                             sess.idUser = rows[0].idUser;
                             res.json(rows); 
                         } else {
-                            console.log(err);
+                            res.send("error");
                         }
     }); 
+});
+
+router.get('/logout',function(req,res){
+    req.session.destroy(function(err) {
+      if(err) {
+        console.log(err);
+      } else {
+        res.redirect('/');
+      }
+    });
 });
 
 module.exports = router;

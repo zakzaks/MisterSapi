@@ -1,8 +1,12 @@
 $(document).ready(function() {
     showSapi();
-    $('#dataTables-sapi').DataTable({
-        responsive: true
-    });
+
+    function dataTables() {  
+        $('#dataTables-sapi').DataTable({
+            responsive: true,
+            "bDeferRender": true
+        });
+    }
 
     $('#checkBerat').change(function (e) { 
         e.preventDefault();
@@ -19,7 +23,7 @@ $(document).ready(function() {
                         var i;
                         for(i=0; i<data.length; i++){
                             html +='<tr>'+
-                                        '<td>'+data[i].idSapi+'</td>'+
+                                        '<td> <a href="javascript:;" class="showPetani" data="'+ data[i].noKTP +'">'+data[i].idSapi+'</a></td>'+
                                         '<td>'+data[i].noKTP+'</td>'+
                                         '<td>'+data[i].jenis+'</td>'+
                                         '<td>'+data[i].daerah+'</td>'+
@@ -58,7 +62,7 @@ $(document).ready(function() {
                 var i;
                 for(i=0; i<data.length; i++){
                     html +='<tr>'+
-                                '<td>'+data[i].idSapi+'</td>'+
+                                '<td> <a href="javascript:;" class="showPetani" data="'+ data[i].noKTP +'">'+data[i].idSapi+'</a></td>'+
                                 '<td>'+data[i].noKTP+'</td>'+
                                 '<td>'+data[i].jenis+'</td>'+
                                 '<td>'+data[i].daerah+'</td>'+
@@ -134,6 +138,7 @@ $(document).ready(function() {
                 '</tr>';
                 }
                 $('#tblSapi').html(html);
+                dataTables();
             },
             error: function(){
                 alert('Terjadi Kesalahan');
