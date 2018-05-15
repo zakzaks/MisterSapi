@@ -12,17 +12,16 @@ router.get('/', (req,res)=>{
 
 //Show petani
 router.post('/login', (req,res)=>{
+    sess=req.session;
     mysqlConnection.query('SELECT * '+
                             'FROM '+
-                            'tblsapi spi '+
+                            'tbluser '+
                             'WHERE username = ? AND password = ?',
-                            [req.body.username,req.body.password],
+                            [String(req.body.username), String(req.body.password)],
                             (err, rows, fields)=>{
                         if(!err){
-                            var msg = {
-                                "privileges" : rows.privileges
-                            };
-                            res.json(JSON.stringify(msg));
+                            sess.idUser = rows[0].idUser;
+                            res.json(rows); 
                         } else {
                             console.log(err);
                         }

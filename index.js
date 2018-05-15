@@ -1,11 +1,21 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
+var session = require('express-session');
 
 //Init express
 const app = express();
+
+app.use(session({
+    secret: 'cookie_secret',
+    proxy: true,
+    resave: true,
+    saveUninitialized: true
+}));
+
 //Make date simply
 app.locals.moment = require('moment');
+
 //Load view engine
 app.set('views', path.join(__dirname,'/views/'));
 app.set('view engine','pug');

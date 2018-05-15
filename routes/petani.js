@@ -7,7 +7,10 @@ let mysqlConnection = require('../models/connection');
 
 //Show petani
 router.get('/', (req,res)=>{
-    res.render('petani/index'); 
+    sess = req.session
+    res.render('petani/index',{
+        idUser : sess.idUser
+    }); 
 });
 
 //Show petani
@@ -30,8 +33,9 @@ router.get('/showPetani', (req,res)=>{
 
 //Add petani
 router.post('/save', (req,res)=>{
-    mysqlConnection.query('INSERT INTO tblpetani VALUES (?,?,?,?,?)',
-        [req.body.noKTP, String(req.body.nama), String(req.body.alamat), String(req.body.daerah), String(req.body.kontak)],
+    sess = req.session
+    mysqlConnection.query('INSERT INTO tblpetani VALUES (?,?,?,?,?,?,NOW())',
+        [String(req.body.noKTP), String(req.body.nama), String(req.body.alamat), String(req.body.daerah), String(req.body.kontak), sess.idUser],
         (err, rows, fields)=>{
         if(!err){
             res.json('success');
