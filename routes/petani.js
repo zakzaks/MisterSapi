@@ -5,49 +5,40 @@ async = require('async');
 //Import modelsapi.
 let mysqlConnection = require('../models/connection');
 
-//Get all sapi JOIN petani
-router.get('/', (req,res,next)=>{
-    async.parallel(
-        [
-            function (callback) {
-                mysqlConnection.query('SELECT '+
-                'noKTP, '+
-                'nama, '+
-                'alamat, '+
-                'daerah, '+
-                'kontak '+
-            'FROM '+
-                'tblpetani',(err, petani)=>{callback(err,petani);
-                });
-            }
-        ],
-        function (err, results) {
-            var data = {dataPetani: results[0]};
-            res.render('petani/index',data); 
+//Show petani
+router.get('/', (req,res)=>{
+    res.render('petani/index'); 
+});
+
+//Show petani
+router.get('/showPetani', (req,res)=>{
+    mysqlConnection.query('SELECT '+
+                                'noKTP, '+
+                                'nama, '+
+                                'alamat, '+
+                                'daerah, '+
+                                'kontak '+
+                            'FROM '+
+                                'tblpetani',(err, results)=>{
+        if(!err){
+            res.json(results);
+        } else {
+            console.log(err);
         }
-    );
+    });
 });
 
 //Add petani
-router.post('/add', (req,res,next)=>{
-    res.render('petani/add'); 
-});
-
-//Add petani
-router.post('/save', (req,res,next)=>{
-    async.parallel(
-        [
-            function (callback) {
-                mysqlConnection.query('INSERT INTO tblpetani VALUES (?,?,?,?,?)',
-                [String(req.body.noKTP), String(req.body.nama), String(req.body.alamat), String(req.body.daerah), String(req.body.kontak)],
-                (err, results)=>{callback(err,results);
-                });
-            }
-        ],
-        function (err, results) {
-            res.redirect('/petani/'); 
+router.post('/save', (req,res)=>{
+    mysqlConnection.query('INSERT INTO tblpetani VALUES (?,?,?,?,?)',
+        [req.body.noKTP, String(req.body.nama), String(req.body.alamat), String(req.body.daerah), String(req.body.kontak)],
+        (err, rows, fields)=>{
+        if(!err){
+            res.json('success');
+        } else {
+            console.log(err);
         }
-    );
+    });
 });
 
 module.exports = router;

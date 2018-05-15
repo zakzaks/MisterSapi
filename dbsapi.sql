@@ -11,7 +11,7 @@
  Target Server Version : 100129
  File Encoding         : 65001
 
- Date: 06/05/2018 08:31:46
+ Date: 15/05/2018 11:06:22
 */
 
 SET NAMES utf8mb4;
@@ -26,14 +26,19 @@ CREATE TABLE `tblpetani`  (
   `nama` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `alamat` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `daerah` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `kontak` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`noKTP`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of tblpetani
 -- ----------------------------
-INSERT INTO `tblpetani` VALUES ('3173021507910004', 'Deni', 'Jl.Kopo Indah Permai ', 'Bandung');
-INSERT INTO `tblpetani` VALUES ('3173021507910005', 'Dilan', 'Jl.Margahayu Raya No.3', 'Bandung');
+INSERT INTO `tblpetani` VALUES ('3173021507910001', 'Rully', 'Jl. Reog Indah Permai No.20', 'Bandung', '08392839287');
+INSERT INTO `tblpetani` VALUES ('3173021507910002', 'Jeni', 'Jl. Martanegara No.30', 'Bandung', '08392839283');
+INSERT INTO `tblpetani` VALUES ('3173021507910003', 'Rendi', 'Jl. Turangga', 'Bandung', '08392839284');
+INSERT INTO `tblpetani` VALUES ('3173021507910004', 'Deni', 'Jl.Kopo Indah Permai ', 'Bandung', '08392839285');
+INSERT INTO `tblpetani` VALUES ('3173021507910005', 'Dilan', 'Jl.Margahayu Raya No.3', 'Bandung', '08392839286');
+INSERT INTO `tblpetani` VALUES ('3173021507910007', 'Deden', 'Jl. Lingkar Selatan Kidul No.20 ', 'Bandung', '08392839289');
 
 -- ----------------------------
 -- Table structure for tblsapi
@@ -46,18 +51,43 @@ CREATE TABLE `tblsapi`  (
   `tgl_awal` date NOT NULL,
   `berat_awal` int(11) NOT NULL,
   `noKTP` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `berat_sekarang` int(11) NULL DEFAULT NULL,
-  `berat_satu_bulan` int(11) NULL DEFAULT NULL,
-  `berat_tiga_bulan` int(11) NULL DEFAULT NULL,
+  `status` enum('Ada','Tidak Ada') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'Ada',
+  `keterangan` enum('Terjual','Mati','Sehat') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'Sehat',
+  `idUser` varchar(12) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `editDate` date NULL DEFAULT NULL,
   PRIMARY KEY (`idSapi`) USING BTREE,
   INDEX `FKNoKTP`(`noKTP`) USING BTREE,
-  CONSTRAINT `FKNoKTP` FOREIGN KEY (`noKTP`) REFERENCES `tblpetani` (`noKTP`) ON DELETE RESTRICT ON UPDATE RESTRICT
+  INDEX `FKSapiIDUser`(`idUser`) USING BTREE,
+  CONSTRAINT `FKSapiIDUser` FOREIGN KEY (`idUser`) REFERENCES `tbluser` (`idUser`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  CONSTRAINT `FKSapiNoKTP` FOREIGN KEY (`noKTP`) REFERENCES `tblpetani` (`noKTP`) ON DELETE RESTRICT ON UPDATE RESTRICT
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of tblsapi
 -- ----------------------------
-INSERT INTO `tblsapi` VALUES ('S0001', 'Sapi Jawa', 12, '2018-01-01', 90, '3173021507910004', NULL, NULL, NULL);
-INSERT INTO `tblsapi` VALUES ('S0002', 'Sapi Sumatera', 5, '2018-05-03', 70, '3173021507910005', NULL, NULL, NULL);
+INSERT INTO `tblsapi` VALUES ('S0001', 'Sapi Jawa', 12, '2018-01-01', 90, '3173021507910004', 'Ada', 'Sehat', 'U005', '2018-05-14');
+INSERT INTO `tblsapi` VALUES ('S0002', 'Sapi Sumatera', 5, '2018-05-03', 70, '3173021507910005', 'Ada', 'Sehat', 'U005', '2018-05-28');
+
+-- ----------------------------
+-- Table structure for tbluser
+-- ----------------------------
+DROP TABLE IF EXISTS `tbluser`;
+CREATE TABLE `tbluser`  (
+  `idUser` varchar(12) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `username` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `password` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `previleges` enum('Petani','Investor','Admin') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  PRIMARY KEY (`idUser`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Records of tbluser
+-- ----------------------------
+INSERT INTO `tbluser` VALUES ('U001', 'petani1', 'petani1', 'Petani');
+INSERT INTO `tbluser` VALUES ('U002', 'petani2', 'petani2', 'Petani');
+INSERT INTO `tbluser` VALUES ('U003', 'petani3', 'petani3', 'Petani');
+INSERT INTO `tbluser` VALUES ('U004', 'petani4', 'petani4', 'Petani');
+INSERT INTO `tbluser` VALUES ('U005', 'admin', 'admin', 'Admin');
+INSERT INTO `tbluser` VALUES ('U006', 'investor', 'investor', 'Investor');
 
 SET FOREIGN_KEY_CHECKS = 1;

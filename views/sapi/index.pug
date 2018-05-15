@@ -18,11 +18,10 @@ block content
                                     option(value='0.9') 0.9
                                     option(value='1.0') 1.0
                             .form-group
+                                label Tampilkan Berat Sapi Lebih Dari 100 Kg :
+                                br
                                 input#checkBerat.form-check-input(type='checkbox')
-                                | &nbsp; Berat lebih dari 100kg
-
-
-
+                                | &nbsp; Check it.
         .row
             .col-lg-12
                 .panel.panel-default
@@ -43,23 +42,7 @@ block content
                                 th(style="width:10%") Berat 3 Bulan (Kg)
                                 th(style="width:5%") Status
                                 th(style="width:5%") Keterangan
-                            tbody#tblSapi
-                                each sapi, i in dataSapi
-                                    tr
-                                        td 
-                                            a.showPetani(href="javascript:;" data=sapi.noKTP)= sapi.idSapi
-                                        td= sapi.noKTP
-                                        td= sapi.jenis
-                                        td= sapi.daerah
-                                        td= sapi.umur
-                                        td= moment(sapi.tgl_awal).format('DD/MM/YYYY')
-                                        td= sapi.berat_awal
-                                        td= sapi.berat_saat_ini
-                                        td= sapi.berat_satu_bulan
-                                        td= sapi.berat_tiga_bulan
-                                        td= sapi.status
-                                        td= sapi.keterangan
-                                        
+                            tbody#tblSapi                                        
                                         
             // The Modal
             #myModal.modal.fade
@@ -74,19 +57,19 @@ block content
                             form(action='#')
                                 .form-group
                                     label(for='No KTP') No KTP:
-                                    input.form-control(type='text', name="noKTP")
+                                    input.form-control(type='text', id="noKTP" readonly)
                                 .form-group
                                     label(for='Nama') Nama :
-                                    input.form-control(type='text', id="nama")
+                                    input.form-control(type='text', id="nama" readonly)
                                 .form-group
                                     label(for='Alamat') Alamat :
-                                    textarea.form-control(id="alamat")
+                                    textarea.form-control(id="alamat" readonly) 
                                 .form-group
                                     label(for='Daerah') Daerah :
-                                    input.form-control(type='text', id="daerah")
+                                    input.form-control(type='text', id="daerah" readonly)
                                 .form-group
                                     label(for='Kontak') Kontak :
-                                    input.form-control(type='text', id="kontak")
+                                    input.form-control(type='text', id="kontak" readonly)
                         // Modal footer
                         .modal-footer
                             button.btn.btn-danger(type='button', data-dismiss='modal') Close

@@ -6,9 +6,14 @@ let mysqlConnection = require('../models/connection');
 
 //Get all sapi JOIN petani
 router.get('/', (req,res)=>{
+    res.render('sapi/index');
+});
+
+//Get all sapi JOIN petani
+router.get('/showSapi', (req,res)=>{
     mysqlConnection.query('SELECT '+
                                 'idSapi, '+
-                                'spi.noKTP, '+
+                                'spi.noKTP as noKTP, '+
                                 'jenis, '+
                                 'daerah, '+
                                 'umur, '+
@@ -21,11 +26,9 @@ router.get('/', (req,res)=>{
                                 'keterangan  '+
                             'FROM '+
                                 'tblsapi spi '+
-                                'JOIN tblpetani ptn ON spi.noKTP = ptn.noKTP',(err, rows, fields)=>{
+                                'JOIN tblpetani ptn ON spi.noKTP = ptn.noKTP',(err, results, fields)=>{
     if(!err){
-        res.render('sapi/index',{
-            dataSapi: rows
-        });
+        res.json(results);
     } else {
         console.log(err);
     }
@@ -76,18 +79,18 @@ router.post('/beratSeratus/:berat',(req,res)=>{
     'FROM '+
         'tblsapi spi '+
         'JOIN tblpetani ptn ON spi.noKTP = ptn.noKTP '+ 
-    'WHERE '+ 
-        'berat_awal > 100 ',[req.params.berat,req.params.berat,req.params.berat],(err, rows, fields)=>{
-    if(!err){
-        res.send(rows);
-    } else {
-        console.log(err);
-    }
+    'HAVING '+ 
+        'berat_saat_ini >= 100 ',[req.params.berat,req.params.berat,req.params.berat],(err, rows, fields)=>{
+        if(!err){
+            res.send(rows);
+        } else {
+            console.log(err);
+        }
     });
 });
 
 //Get detail petani
-router.post('/getPetani/:noKTP',(req,res)=>{
+router.get('/getPetani/:noKTP',(req,res)=>{
     mysqlConnection.query('SELECT '+
                                 'noKTP, '+
                                 'nama, '+
@@ -98,7 +101,7 @@ router.post('/getPetani/:noKTP',(req,res)=>{
                                 'tblpetani '+
                             'WHERE noKTP = ?',[req.params.noKTP],(err, rows, fields)=>{
     if(!err){
-        res.json(JSON.stringify(rows));
+        res.json(rows);
     } else {
         console.log(err);
     }
