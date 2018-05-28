@@ -35,5 +35,8 @@ let petani = require('./routes/petani');
 app.use('/petani', petani);
 let login = require('./routes/login');
 app.use('/', login);
+let users = require('./routes/api');
+app.use('/api/v1/users', users);
+
 
 app.listen(3000,()=>console.log('Express server is running in port 3000...'));
